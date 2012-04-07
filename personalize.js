@@ -42,8 +42,10 @@ function processPost(itemDOM) {
 };
 
 function onChange(event) {
-  localStorage['enable'] = event.srcElement.checked ? '1' : '0';
+  var value = event.srcElement.checked;
+  localStorage['enable'] = value ? '1' : '0';
   processAllItems();
+  chrome.extension.sendRequest({personalize: value}, function(){});
 }
 
 document.addEventListener("DOMContentLoaded", function() {

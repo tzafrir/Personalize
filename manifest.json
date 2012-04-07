@@ -5,6 +5,7 @@
   "icons": {
     "128": "icon128.png"
   },
+  "background_page": "background.html",
   "content_scripts": [ {
       "all_frames": true,
       "js": [ "personalize.js" ],
