@@ -31,7 +31,7 @@ function processAllItems(subtreeDOM) {
 
 function processPost(itemDOM) {
   if (itemDOM && itemDOM.querySelector(PUBLIC_POST_SELECTOR)) {
-    if (localStorage['enable'] == 1 || true) {
+    if (localStorage['enable'] == '1') {
       itemDOM.style.visibility = 'hidden';
       itemDOM.style.display = 'none';
     } else {
@@ -41,7 +41,31 @@ function processPost(itemDOM) {
   }
 };
 
+function onChange(event) {
+  localStorage['enable'] = event.srcElement.checked ? '1' : '0';
+  processAllItems();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
+  // Insert checkbox.
+  var stream = document.querySelector('[asrc=streamnav]');
+  if (stream) {
+    var isEnabled = localStorage['enable'] == '1';
+    var controlBox = document.createElement('input');
+    controlBox.type = 'checkbox';
+    controlBox.onchange = onChange;
+    controlBox.id = 'tz_personalize_enable';
+    if (isEnabled) {
+      controlBox.setAttribute('checked', true);
+    }
+    var label = document.createElement('label');
+    label.setAttribute('for', controlBox.id);
+    label.innerText = 'Personalize';
+    var parent = stream.parentElement;
+    parent.insertBefore(label, parent.children[1]);
+    parent.insertBefore(controlBox, label);
+  }
+
   // Listen when the subtree is modified for new posts.
   var googlePlusContentPane = document.querySelector(CONTENT_PANE_ID);
   if (googlePlusContentPane) {
