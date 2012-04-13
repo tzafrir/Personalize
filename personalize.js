@@ -52,7 +52,7 @@ var STATIC_CSS = "background-attachment: scroll;" +
 
 var enabled = false;
 
-function onContentModified(e) {
+function onNodeInserted(e) {
   // This happens when a new stream is selected
   if (e.relatedNode && e.relatedNode.parentNode && e.relatedNode.parentNode.id == 'contentPane') {
     // We're only interested in the insertion of entire content pane
@@ -60,7 +60,6 @@ function onContentModified(e) {
   } else if (e.target.nodeType == Node.ELEMENT_NODE && e.target.id.indexOf('update') == 0) {
     processPost(e.target);
   }
-  addPersonalizeButtonIfNeeded();
 };
 
 function addPersonalizeButtonIfNeeded() {
@@ -71,7 +70,6 @@ function addPersonalizeButtonIfNeeded() {
   if (document.getElementById('tz_personalizeButton')) {
     return;
   }
-  console.log(firstButton.getAttribute('tz_personalize'));
   firstButton.setAttribute('tz_personalize', true);
 
   var button = document.createElement('div');
@@ -130,7 +128,9 @@ document.addEventListener("DOMContentLoaded", function() {
   // Listen when the subtree is modified for new posts.
   var googlePlusContentPane = document.querySelector(CONTENT_PANE_ID);
   if (googlePlusContentPane) {
-    googlePlusContentPane.addEventListener('DOMNodeInserted', onContentModified);
+    googlePlusContentPane.addEventListener('DOMNodeInserted', onNodeInserted);
+    googlePlusContentPane.addEventListener('DOMSubtreeModified', addPersonalizeButtonIfNeeded);
+    addPersonalizeButtonIfNeeded();
     processAllItems(googlePlusContentPane);
   }
 });
