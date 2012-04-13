@@ -107,10 +107,11 @@ function processAllItems(subtreeDOM) {
 
 function processPost(itemDOM) {
   if (itemDOM && itemDOM.querySelector(PUBLIC_POST_SELECTOR)) {
-    if (enabled == '1') {
+    if (enabled) {
       itemDOM.style.visibility = 'hidden';
       itemDOM.style.display = 'none';
     } else {
+      console.log(itemDOM.id);
       itemDOM.style.visibility = null;
       itemDOM.style.display = null;
     }
@@ -119,7 +120,7 @@ function processPost(itemDOM) {
 
 function onPersonalizeStateChange(event) {
   var value = event.srcElement.checked;
-  enabled = value ? '1' : '0';
+  enabled = !!value;
   processAllItems();
   chrome.extension.sendRequest({personalize: value}, function(){});
 }
