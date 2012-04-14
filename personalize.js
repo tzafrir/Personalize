@@ -51,6 +51,8 @@ var STATIC_CSS = "background-attachment: scroll;" +
 "z-index: 3;";
 
 var enabled = false;
+var lastEnabled = false;
+var buttonExists = false;
 
 function onNodeInserted(e) {
   // This happens when a new stream is selected
@@ -63,9 +65,6 @@ function onNodeInserted(e) {
 };
 
 function addPersonalizeButtonIfNeeded() {
-  if (document.getElementById('tz_personalizeButton')) {
-    return;
-  }
   var firstButton = document.querySelector('[data-dest=stream]:first-child:not([tz_personalize])');
   if (!firstButton) {
     return;
@@ -91,13 +90,20 @@ function addPersonalizeButtonIfNeeded() {
   button.appendChild(document.createTextNode('Personalize'));
   label.appendChild(button);
   firstButton.parentElement.parentElement.appendChild(label);
+  buttonExists = true;
 }
 
 /**
  * Process
  */
 function processAllItems(subtreeDOM) {
-  addPersonalizeButtonIfNeeded();
+  if (!buttonExists) {
+    addPersonalizeButtonIfNeeded();
+  }
+  if (lastEnabled == enabled) {
+    return;
+  }
+  lastEnabled = enabled;
   var document.querySelectorAll(STREAM_UPDATE_SELECTOR);
   for (var i = 0; i < posts.length; i++) {
     processPost(posts[i]);
