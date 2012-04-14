@@ -63,11 +63,11 @@ function onNodeInserted(e) {
 };
 
 function addPersonalizeButtonIfNeeded() {
-  var firstButton = document.querySelector('[data-dest=stream]:first-child:not([tz_personalize])');
-  if (!firstButton) {
+  if (document.getElementById('tz_personalizeButton')) {
     return;
   }
-  if (document.getElementById('tz_personalizeButton')) {
+  var firstButton = document.querySelector('[data-dest=stream]:first-child:not([tz_personalize])');
+  if (!firstButton) {
     return;
   }
   firstButton.setAttribute('tz_personalize', true);
@@ -110,7 +110,6 @@ function processPost(itemDOM) {
       itemDOM.style.visibility = 'hidden';
       itemDOM.style.display = 'none';
     } else {
-      console.log(itemDOM.id);
       itemDOM.style.visibility = null;
       itemDOM.style.display = null;
     }
@@ -130,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (googlePlusContentPane) {
     googlePlusContentPane.addEventListener('DOMNodeInserted', onNodeInserted);
     googlePlusContentPane.addEventListener('DOMSubtreeModified', processAllItems);
-    processAllItems(googlePlusContentPane);
+    processAllItems();
   }
 });
 })();
