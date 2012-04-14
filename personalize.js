@@ -97,9 +97,8 @@ function addPersonalizeButtonIfNeeded() {
  * Process
  */
 function processAllItems(subtreeDOM) {
-  var posts = (typeof subtreeDOM == 'undefined') ?
-      document.querySelectorAll(STREAM_UPDATE_SELECTOR) :
-      subtreeDOM.querySelectorAll(STREAM_UPDATE_SELECTOR);
+  addPersonalizeButtonIfNeeded();
+  var document.querySelectorAll(STREAM_UPDATE_SELECTOR);
   for (var i = 0; i < posts.length; i++) {
     processPost(posts[i]);
   }
@@ -130,8 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var googlePlusContentPane = document.querySelector(CONTENT_PANE_ID);
   if (googlePlusContentPane) {
     googlePlusContentPane.addEventListener('DOMNodeInserted', onNodeInserted);
-    googlePlusContentPane.addEventListener('DOMSubtreeModified', addPersonalizeButtonIfNeeded);
-    addPersonalizeButtonIfNeeded();
+    googlePlusContentPane.addEventListener('DOMSubtreeModified', processAllItems);
     processAllItems(googlePlusContentPane);
   }
 });

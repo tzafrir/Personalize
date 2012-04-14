@@ -1,7 +1,7 @@
 {
   "name": "Personalize for Google Plus™",
   "description": "Only display non-public posts in the Google Plus stream",
-  "version": "2.2",
+  "version": "2.3",
   "icons": {
     "128": "icon128.png"
   },
