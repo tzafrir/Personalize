@@ -52,13 +52,12 @@ var STATIC_CSS = "background-attachment: scroll;" +
 
 var enabled = false;
 var lastEnabled = false;
-var buttonExists = false;
 
 function onNodeInserted(e) {
   // This happens when a new stream is selected
   if (e.relatedNode && e.relatedNode.parentNode && e.relatedNode.parentNode.id == 'contentPane') {
     // We're only interested in the insertion of entire content pane
-    processAllItems(e.target);
+    processAllItems();
   } else if (e.target.nodeType == Node.ELEMENT_NODE && e.target.id.indexOf('update') == 0) {
     processPost(e.target);
   }
@@ -90,14 +89,13 @@ function addPersonalizeButtonIfNeeded() {
   button.appendChild(document.createTextNode('Personalize'));
   label.appendChild(button);
   firstButton.parentElement.parentElement.appendChild(label);
-  buttonExists = true;
 }
 
 /**
  * Process
  */
 function processAllItems(subtreeDOM) {
-  if (!buttonExists) {
+  if (!document.getElementById('tz_personalizeButton')) {
     addPersonalizeButtonIfNeeded();
   }
   if (lastEnabled == enabled) {
