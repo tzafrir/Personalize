@@ -104,7 +104,7 @@ function processAllItems(subtreeDOM) {
     return;
   }
   lastEnabled = enabled;
-  var document.querySelectorAll(STREAM_UPDATE_SELECTOR);
+  var posts = document.querySelectorAll(STREAM_UPDATE_SELECTOR);
   for (var i = 0; i < posts.length; i++) {
     processPost(posts[i]);
   }
