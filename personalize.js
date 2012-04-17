@@ -30,8 +30,8 @@ var STATIC_CSS = "background-attachment: scroll;" +
 "height: 27px;" +
 "line-height: 27px;" +
 "margin-bottom: 0px;" +
-"margin-left: 10px;" +
-"margin-right: 0px;" +
+"margin-left: 0px;" +
+"margin-right: 10px;" +
 "margin-top: 0px;" +
 "max-width: 120px;" +
 "min-width: 34px;" +
@@ -87,7 +87,7 @@ function addPersonalizeButton(node) {
   button.appendChild(controlBox);
   button.appendChild(document.createTextNode('Personalize'));
   label.appendChild(button);
-  firstButton.parentElement.parentElement.appendChild(label);
+  firstButton.parentElement.parentElement.insertBefore(label, firstButton.parentElement);
 }
 
 /**
