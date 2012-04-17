@@ -3,6 +3,8 @@
  * Injection code inspired by https://github.com/mohamedmansour/extended-share-extension
  */
 
+var enabled = false;
+
 var CONTENT_PANE_ID = '#contentPane';
 var STREAM_UPDATE_SELECTOR = 'div[id^="update"]';
 var PUBLIC_POST_SELECTOR = '.ERIVId';
@@ -50,21 +52,18 @@ var STATIC_CSS = "background-attachment: scroll;" +
 "white-space: nowrap;" +
 "z-index: 3;";
 
-var enabled = false;
-var lastEnabled = false;
-
 function onNodeInserted(e) {
   // This happens when a new stream is selected
-  if (e.relatedNode && e.relatedNode.parentNode && e.relatedNode.parentNode.id == 'contentPane') {
-    // We're only interested in the insertion of entire content pane
-    processAllItems();
-  } else if (e.target.nodeType == Node.ELEMENT_NODE && e.target.id.indexOf('update') == 0) {
+  if (e.target && e.target.id && e.target.id.indexOf('update') == 0) {
     processPost(e.target);
+  } else if (e.relatedNode && e.relatedNode.parentNode && e.relatedNode.parentNode.id == 'contentPane') {
+    processAllItems();
+    addPersonalizeButton(e.relatedNode);
   }
 };
 
-function addPersonalizeButtonIfNeeded() {
-  var firstButton = document.querySelector('[data-dest=stream]:first-child:not([tz_personalize])');
+function addPersonalizeButton(node) {
+  var firstButton = node.querySelector('[data-dest=stream]:first-child:not([tz_personalize])');
   if (!firstButton) {
     return;
   }
@@ -95,13 +94,6 @@ function addPersonalizeButtonIfNeeded() {
  * Process
  */
 function processAllItems(subtreeDOM) {
-  if (!document.getElementById('tz_personalizeButton')) {
-    addPersonalizeButtonIfNeeded();
-  }
-  if (lastEnabled == enabled) {
-    return;
-  }
-  lastEnabled = enabled;
   var posts = document.querySelectorAll(STREAM_UPDATE_SELECTOR);
   for (var i = 0; i < posts.length; i++) {
     processPost(posts[i]);
@@ -131,9 +123,8 @@ document.addEventListener("DOMContentLoaded", function() {
   // Listen when the subtree is modified for new posts.
   var googlePlusContentPane = document.querySelector(CONTENT_PANE_ID);
   if (googlePlusContentPane) {
-    googlePlusContentPane.addEventListener('DOMNodeInserted', onNodeInserted);
-    googlePlusContentPane.addEventListener('DOMSubtreeModified', processAllItems);
-    processAllItems();
+    googlePlusContentPane.parentElement.addEventListener('DOMNodeInserted', onNodeInserted);
+    addPersonalizeButton(googlePlusContentPane);
   }
 });
 })();
