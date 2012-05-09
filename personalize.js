@@ -7,7 +7,7 @@ var enabled = false;
 
 var CONTENT_PANE_ID = '#contentPane';
 var STREAM_UPDATE_SELECTOR = 'div[id^="update"]';
-var PUBLIC_POST_SELECTOR = '.ERIVId';
+var PUBLIC_POST_SELECTOR = '.zX';
 
 var STATIC_CSS = "background-attachment: scroll;" +
 "background-clip: border-box;" +
@@ -58,7 +58,6 @@ function onNodeInserted(e) {
     processPost(e.target);
   } else if (e.relatedNode && e.relatedNode.parentNode && e.relatedNode.parentNode.id == 'contentPane') {
     processAllItems();
-    addPersonalizeButton(e.relatedNode);
   }
 };
 
